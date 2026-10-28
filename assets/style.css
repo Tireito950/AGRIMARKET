@@ -1,0 +1,175 @@
+/* AgriMarket – custom styles that complement Tailwind utility classes. */
+
+:root {
+  --green: #244b36;
+  --green-light: #336148;
+  --orange: #d96b27;
+  --orange-hover: #c45c1b;
+  --cream: #faf6ed;
+  --cream-dark: #f0e8d5;
+  --border: #dcd3be;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--green);
+  font-family: 'Inter', sans-serif;
+}
+
+/* ---------- Hero Section Background Image ---------- */
+.hero-section {
+  background-image: 
+    linear-gradient(rgba(11, 71, 41, 0.88), rgba(0, 0, 0, 0.88)), 
+    url('../img/background.jpg');
+    
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--green); /* Fallback color */
+}
+
+/* ---------- Navigation ---------- */
+.nav-link.active {
+  font-weight: 700;
+  color: #fff;
+  border-bottom: 2px solid var(--orange);
+}
+
+.user-menu > summary { list-style: none; }
+.user-menu > summary::-webkit-details-marker { display: none; }
+
+/* ---------- Text helpers ---------- */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary { background: var(--orange); color: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
+.btn-primary:hover:not(:disabled) { background: var(--orange-hover); }
+
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:hover:not(:disabled) { background: var(--green-light); }
+
+.btn-outline { background: #fff; color: var(--green); border: 1px solid var(--green); }
+.btn-outline:hover:not(:disabled) { background: var(--cream-dark); }
+
+.btn-danger { background: #fff; color: #b91c1c; border: 1px solid #fca5a5; }
+.btn-danger:hover:not(:disabled) { background: #fef2f2; }
+
+.btn-sm { padding: 0.35rem 0.75rem; font-size: 0.75rem; }
+
+/* ---------- Forms ---------- */
+.label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #374151;
+}
+
+.field {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.875rem;
+  color: #111827;
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+}
+.field:focus { outline: 2px solid var(--green); outline-offset: 0; background: #fff; }
+textarea.field { min-height: 7rem; resize: vertical; }
+
+.role-option input { position: absolute; opacity: 0; pointer-events: none; }
+.role-option span {
+  display: block;
+  padding: 0.65rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4b5563;
+  border: 2px solid #d1d5db;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.role-option input:checked + span { color: #fff; background: var(--green); border-color: var(--green); }
+.role-option input:focus-visible + span { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* ---------- Quantity stepper ---------- */
+.stepper { display: inline-flex; align-items: center; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; }
+.stepper button { padding: 0.35rem 0.75rem; font-weight: 700; color: #4b5563; }
+.stepper button:hover { background: #f3f4f6; }
+.stepper input {
+  width: 3rem;
+  padding: 0.35rem 0;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--green);
+  background: transparent;
+  -moz-appearance: textfield;
+}
+.stepper input::-webkit-outer-spin-button,
+.stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ---------- Tables ---------- */
+.data-table { width: 100%; font-size: 0.875rem; text-align: left; border-collapse: collapse; }
+.data-table th {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #6b7280;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+}
+.data-table td { padding: 0.65rem 0.75rem; border-bottom: 1px solid #efe9d8; vertical-align: middle; }
+
+/* ---------- Flash messages ---------- */
+.flash { transition: opacity 0.4s; }
+.flash.hide { opacity: 0; }
+
+/* ---------- Printing (receipts) ---------- */
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  .card { box-shadow: none; }
+}
