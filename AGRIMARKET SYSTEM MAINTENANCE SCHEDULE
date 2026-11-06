@@ -1,0 +1,162 @@
+ 
+AGRIMARKET SYSTEM MAINTENANCE SCHEDULE
+Agrimarket System
+ 
+ 
+Table of Contents
+AgriMarket System Maintenance Schedule.	2
+1. Introduction	2
+2. Maintenance Activities at a Glance	2
+3. Database Backup and Recovery	2
+3.1 Backup Plan	2
+3.2 Database Recovery Procedure	3
+3.3 Recovery Targets	4
+4. Software and Dependency Updates	4
+4.1 Update Schedule	4
+4.2 Update Procedure	4
+5. Security Maintenance	5
+5.1 Weekly Security Checks	5
+5.2 Quarterly Security Checks	5
+5.3 Additional Security Reviews	6
+6. Application Health Monitoring	6
+6.1 Monitoring Schedule	6
+6.2 Incident Recording	7
+7. Maintenance Responsibilities	7
+8. Conclusion	8
+
+
+ 
+AgriMarket System Maintenance Schedule.
+1. Introduction
+The AgriMarket system requires regular maintenance to ensure that it remains secure, reliable, and available to users. Maintenance activities help prevent system failures, protect important information, improve performance, and ensure that all system features work correctly.
+This maintenance schedule outlines the activities to be performed, how often they should be carried out, and who is responsible for each task.
+2. Maintenance Activities at a Glance
+The following table provides a summary of the main maintenance activities for the AgriMarket system.
+Maintenance Task	Frequency	Responsible Person
+Database backup	Every night at 2:00 AM EAT	Server Administrator
+Backup restoration test	Monthly	Server Administrator
+PHP, MySQL and operating system updates	Monthly (critical updates within 48 hours)	Server Administrator
+CDN and external asset checks	Quarterly	Developer
+Security checks	Weekly and quarterly	Developer
+Website uptime and error-log monitoring	Continuous, with daily reviews	Server Administrator
+3. Database Backup and Recovery
+Database backup is important because it protects AgriMarket information against accidental deletion, system failure, or data loss.
+The system administrator must ensure that the database is backed up every night and that backups can be restored successfully when needed.
+3.1 Backup Plan
+The following information must be included in the backup process.
+
+Item	Description	Backup Method	Retention Period
+Database	All database tables, including users, products, orders and order items.	Use mysqldump --single-transaction --routines agrimarket and compress the backup using gzip. Run at 2:00 AM EAT.	7 daily, 4 weekly and 6 monthly backups
+Product uploads	Product images stored in uploads/products/.	Copy files using rsync or tar after the database backup.	Same period as database backups
+Configuration files	config.php and database environment variables.	Store securely in a password manager or encrypted storage.	Keep the latest version
+Offsite backup	An encrypted copy of the database backup.	Transfer to a separate storage provider or geographical location.	30 days
+Important: Configuration files must never be stored in a publicly accessible web directory. Database passwords and other sensitive information must be protected.
+3.2 Database Recovery Procedure
+If the system experiences a failure or database loss, the following steps should be followed to restore the AgriMarket system.
+1.	Enable maintenance mode: Temporarily prevent users from accessing the system or stop the web server.
+2.	Create a new database: Create an empty database using the following SQL command:
+	CREATE DATABASE agrimarket
+	CHARACTER SET utf8mb4;
+3.	Restore the database: Use the latest available backup to restore the database.
+gunzip < backup.sql.gz | mysql agrimarket
+4.	Restore configuration files: Copy the correct config.php file and restore the product images from the backup.
+5.	Test the system: Confirm that users can log in, products appear in the catalogue, and a test checkout works correctly.
+6.	Reopen the website: Once all checks are successful, disable maintenance mode and allow users to access the system.
+
+
+
+
+
+3.3 Recovery Targets
+AgriMarket will use the following recovery targets to minimise service interruptions and data loss.
+Recovery Target	Target Time	Explanation
+Recovery Point Objective (RPO)	24 hours	The system should not lose more than 24 hours of data.
+Recovery Time Objective (RTO)	4 hours	The system should be restored and available within 4 hours.
+Orders and user information are particularly important because they cannot easily be recreated after data loss.
+4. Software and Dependency Updates
+AgriMarket does not currently use Composer packages. However, it depends on PHP, MySQL or MariaDB, the web server, the operating system, and externally loaded resources.
+These components must be checked regularly to ensure compatibility, security, and proper system performance.
+4.1 Update Schedule
+Dependency	Checking Frequency	Maintenance Action
+PHP (8.1 or newer)	Monthly	Install available security and bug-fix updates. Upgrade versions that have reached end of life.
+MySQL / MariaDB	Monthly	Apply available security and maintenance updates. Always create a database backup before updating.
+Web server and operating system	Monthly	Install security updates and restart services when necessary during low-traffic hours.
+Tailwind CSS CDN	Quarterly	Check that the stylesheet loads correctly and consider using a fixed version.
+Font Awesome 6.4.0	Quarterly	Confirm that icons display correctly and that the required resources remain available.
+Google Fonts	Quarterly	Check that fonts load correctly and consider local hosting where appropriate.
+
+
+4.2 Update Procedure
+All major updates should first be tested on a staging version of AgriMarket before being applied to the live website.
+After updating, the developer should perform a system test to confirm that the following features work correctly:
+•	User registration and login.
+•	Adding products to the shopping cart.
+•	Completing the checkout process.
+•	Editing and updating farmer product listings.
+•	Loading external resources such as fonts, stylesheets and icons.
+If the tests are successful, the updates can be applied to the production system.
+Note: Critical security updates should be installed within 48 hours, where possible.
+5. Security Maintenance
+Security maintenance helps protect AgriMarket against unauthorised access, data theft, and other security threats.
+The developer should perform basic security checks every week and a complete security review every three months.
+5.1 Weekly Security Checks
+The following activities should be performed every week.
+Security Check	Required Action
+Admin setup file	Confirm that setup_admin.php has been deleted from the live server after administrator setup.
+Administrator accounts	Review administrator accounts and remove any unauthorised accounts.
+Failed login attempts	Check recent failed login attempts for unusual activity.
+HTTPS certificate	Confirm that the SSL certificate is valid and the website uses HTTPS.
+Session security	Confirm that secure session cookies are enabled.
+5.2 Quarterly Security Checks
+The following activities should be performed every three months.
+
+Security Check	Required Action
+Configuration file protection	Ensure that config.php cannot be accessed directly through a web browser.
+Upload directory security	Ensure that files in uploads/ cannot be executed as scripts.
+Database permissions	Confirm that the application uses a database account with only the permissions it requires, rather than the root account.
+Password management	Change database and administrator passwords where necessary and remove unused accounts.
+CSRF protection	Test that forms are protected against Cross-Site Request Forgery (CSRF) attacks.
+Login protection	Confirm that login attempt limits are working correctly.
+User roles and permissions	Confirm that buyers cannot access administrator or farmer-only pages without permission.
+5.3 Additional Security Reviews
+A full security review should also be performed after:
+•	Major changes to the application.
+•	Installation of new system features.
+•	A suspected security incident.
+•	Unauthorised access or unusual system activity.
+Any security problems discovered should be recorded and corrected as soon as possible.
+6. Application Health Monitoring
+The AgriMarket system should be monitored regularly to ensure that it is available and functioning correctly.
+An external uptime monitoring service should be used to check whether the website is accessible. The server administrator should also review system logs, backup files, and available disk space every day.
+6.1 Monitoring Schedule
+Monitoring Area	Monitoring Method	Alert or Action Required
+Website availability	Use an external uptime monitoring service to check index.php every 5 minutes.	Send an alert after two consecutive failed checks.
+Database connection	Monitor api/produce.php, which retrieves information from the database.	Send an alert if an error occurs or the response takes more than 3 seconds.
+PHP and web server errors	Review PHP and web server error logs daily.	Investigate repeated fatal errors and PDO database exceptions.
+Disk space	Check available server storage daily.	Investigate when disk usage exceeds 80%.
+Database backups	Confirm that the nightly backup file exists and has a normal file size.	Investigate if a backup is missing or is less than half its usual size.
+Orders	Compare the daily number of orders with the weekly average.	Investigate unexpected periods with zero orders on normal trading days.
+
+6.2 Incident Recording
+Every system failure, security issue, or maintenance problem should be recorded in a simple maintenance log.
+The log should contain:
+•	Date and time the problem occurred.
+•	Description of the problem.
+•	Possible cause of the problem.
+•	Action taken to resolve it.
+•	Person responsible for fixing it.
+•	Date and time the issue was resolved.
+These records will help the development and administration teams identify repeated problems and improve system reliability during quarterly maintenance reviews.
+7. Maintenance Responsibilities
+To ensure that all maintenance activities are completed correctly, responsibilities are divided between the server administrator and the developer.
+Responsible Person	Main Responsibilities
+Server Administrator	Database backups, backup restoration, server updates, uptime monitoring, disk space checks, server logs and recovery procedures.
+Developer	Security reviews, application testing, CDN checks, dependency compatibility, bug fixes and verification of user permissions.
+Both roles should work together whenever a major system update, security incident, or recovery operation is required.
+
+
+
+8. Conclusion
+Regular maintenance is essential for keeping the AgriMarket system secure, reliable, and efficient. By following this maintenance schedule, the system administrators and developers can identify problems early, protect important user and transaction information, and reduce unexpected system downtime.
+All maintenance activities should be documented, reviewed regularly, and updated whenever major changes are made to the AgriMarket system. This will help ensure that the system continues to meet the needs of buyers, farmers, and administrators
+
